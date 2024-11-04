@@ -7,10 +7,15 @@
     <title>lel</title>
     <link rel="stylesheet" href="css/s.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap">
 </head>
 
 <body>
+    <div id="overlay" class="overlay">
+        <h1>click anywhere to enter</h1>
+    </div>
     <div class="background"></div>
+    <div id="particles-js"></div>
     <div class="card">
         <a href="https://cshmark.xyz">
             <img draggable="false" ondragstart="return false" class="pfp" id="discord-pfp">
@@ -20,12 +25,28 @@
         <div class="s">
             <a href="https://discord.com/users/1239317024086298678">discord</a> |
             <a href="https://steamcommunity.com/id/cshmark">steam</a> |
-          <!-- <a href="https://soundcloud.com/baszam-ki-aszad">soundcloud</a> | -->
             <a href="https://github.com/markie1111">github</a>
         </div>
     </div>
+    <script src="/particles.min.js"></script>
+    <script src="./particles.js"></script>
 
     <script>
+        var audio = new Audio('./song.mp3');
+        audio.volume = .2;
+        audio.loop = true;
+        document.getElementById('overlay').addEventListener('click', function () {
+            this.classList.add('fade-out');
+
+            audio.play();
+
+            document.querySelector('.card').style.animation = 'zsido 1s ease-in';
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.classList.add('no-scroll');
+        });
+
         const discordUserID = '1239317024086298678';
 
         async function updateDiscordInfo() {
@@ -34,7 +55,7 @@
                 const data = await response.json();
 
                 if (data && data.success) {
-                    const { discord_user, discord_status } = data.data;
+                    const { discord_user, discord_status, spotify } = data.data;
 
                     document.getElementById('discord-pfp').src = `https://cdn.discordapp.com/avatars/${discord_user.id}/${discord_user.avatar}.png?size=512`;
                     document.getElementById('discord-username').textContent = discord_user.username;
@@ -67,4 +88,5 @@
         updateDiscordInfo();
     </script>
 </body>
+
 </html>
